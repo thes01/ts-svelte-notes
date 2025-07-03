@@ -2,4 +2,6 @@
 	import Test from '../lib/Test.svx';
 </script>
 
-<Test></Test>
+<div class="prose">
+	<Test></Test>
+</div>
