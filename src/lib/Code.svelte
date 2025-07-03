@@ -1,5 +1,4 @@
 <script lang="ts">
-	import * as lzstring from 'lz-string';
 	import { createHighlighter } from 'shiki';
 	import { escapeSvelte } from 'mdsvex';
 
@@ -10,11 +9,12 @@
 
 	const { code, lang = 'ts' }: Props = $props();
 
-	const link = $derived(get_playground_url(code));
+	const link_promise = $derived(get_playground_url(code));
 
-	function get_playground_url(code: string): string {
-		// const compressed = lzstring.compressToEncodedURIComponent(code);
-		const compressed = '';
+	async function get_playground_url(code: string) {
+		// For some reason this doesn't work in the SSR.
+		const lzstring = await import('lz-string');
+		const compressed = lzstring.compressToEncodedURIComponent(code);
 		return `https://www.typescriptlang.org/play?#code/${compressed}`;
 	}
 
@@ -35,5 +35,7 @@
 {/await}
 
 {#if lang === 'ts'}
-	<a href={link} target="_blank">Link to TS Playground</a>
+	{#await link_promise then link}
+		<a href={link} target="_blank">Link to TS Playground</a>
+	{/await}
 {/if}
