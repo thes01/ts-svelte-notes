@@ -43,8 +43,8 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ${{ github.workspace }}/dist
-          artifact_name: dist
+          path: ${{ github.workspace }}/build
+          name: build
 
       - name: Deploy
         id: deployment
