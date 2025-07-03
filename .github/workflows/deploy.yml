@@ -21,8 +21,13 @@ jobs:
 
       - name: Build
         run: bun run build
-        # env:
-        #   BASE_PATH: ${{ github.event.repository.name }}
+        env:
+          BASE_PATH: '/${{ github.event.repository.name }}'
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'build/'
 
   deploy:
     needs: build_site
@@ -39,12 +44,6 @@ jobs:
     steps:
       - name: Configure Pages
         uses: actions/configure-pages@v5
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ${{ github.workspace }}/build
-          name: build
 
       - name: Deploy
         id: deployment
