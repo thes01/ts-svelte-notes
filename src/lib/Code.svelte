@@ -1,34 +1,35 @@
 <script lang="ts">
-	import { onMount, type Snippet } from 'svelte';
 	import * as lzstring from 'lz-string';
+	import { createHighlighter } from 'shiki';
+	import { escapeSvelte } from 'mdsvex';
 
 	interface Props {
-		children?: Snippet;
+		code: string;
 	}
 
-	const { children }: Props = $props();
+	const { code }: Props = $props();
 
-	let code_elem: HTMLDivElement;
-
-	let link = $state('');
-
-	function generatePlaygroundURL(code: string): string {
+	function get_playground_url(code: string): string {
 		const compressed = lzstring.compressToEncodedURIComponent(code);
 		return `https://www.typescriptlang.org/play?#code/${compressed}`;
 	}
 
-	function update_playground_link() {
-		const code = code_elem.innerText;
-		link = generatePlaygroundURL(code);
-	}
+	let link = $derived(get_playground_url(code));
 
-	onMount(() => {
-		update_playground_link();
-	});
+	async function get_highlighed_code(code: string, lang: string) {
+		const theme = 'github-dark';
+		const highlighter = await createHighlighter({
+			themes: [theme],
+			langs: ['javascript', 'typescript']
+		});
+		const html = escapeSvelte(highlighter.codeToHtml(code, { lang, theme }));
+
+		return html;
+	}
 </script>
 
-<div bind:this={code_elem}>
-	{@render children?.()}
-</div>
+{#await get_highlighed_code(code, 'ts') then code_html}
+	{@html code_html}
+{/await}
 
 <a href={link} target="_blank">Link to TS Playground</a>

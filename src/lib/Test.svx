@@ -4,14 +4,9 @@ title: Hello
 
 <script>
 import Code from './Code.svelte';
+import test_code from './docs/test.ts?raw';
 </script>
 
 # { title }
 
-<Code>
-
-```ts
-export const foo = false;
-```
-
-</Code>
+<Code code={test_code} />
