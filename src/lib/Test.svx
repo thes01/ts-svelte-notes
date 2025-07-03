@@ -1,0 +1,17 @@
+---
+title: Hello
+---
+
+<script>
+import Code from './Code.svelte';
+</script>
+
+# { title }
+
+<Code>
+
+```ts
+export const foo = false;
+```
+
+</Code>
