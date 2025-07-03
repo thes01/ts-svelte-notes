@@ -10,8 +10,11 @@
 
 	const { code, lang = 'ts' }: Props = $props();
 
+	const link = $derived(get_playground_url(code));
+
 	function get_playground_url(code: string): string {
-		const compressed = lzstring.compressToEncodedURIComponent(code);
+		// const compressed = lzstring.compressToEncodedURIComponent(code);
+		const compressed = '';
 		return `https://www.typescriptlang.org/play?#code/${compressed}`;
 	}
 
@@ -32,6 +35,5 @@
 {/await}
 
 {#if lang === 'ts'}
-	{@const link = get_playground_url(code)}
 	<a href={link} target="_blank">Link to TS Playground</a>
 {/if}
