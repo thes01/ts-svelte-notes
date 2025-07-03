@@ -9,4 +9,6 @@ import test_code from './docs/test.ts?raw';
 
 # { title }
 
+This is a markdown file with some basic components:
+
 <Code code={test_code} />

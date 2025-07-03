@@ -5,16 +5,15 @@
 
 	interface Props {
 		code: string;
+		lang?: 'ts';
 	}
 
-	const { code }: Props = $props();
+	const { code, lang = 'ts' }: Props = $props();
 
 	function get_playground_url(code: string): string {
 		const compressed = lzstring.compressToEncodedURIComponent(code);
 		return `https://www.typescriptlang.org/play?#code/${compressed}`;
 	}
-
-	let link = $derived(get_playground_url(code));
 
 	async function get_highlighed_code(code: string, lang: string) {
 		const theme = 'github-dark';
@@ -28,8 +27,11 @@
 	}
 </script>
 
-{#await get_highlighed_code(code, 'ts') then code_html}
+{#await get_highlighed_code(code, lang) then code_html}
 	{@html code_html}
 {/await}
 
-<a href={link} target="_blank">Link to TS Playground</a>
+{#if lang === 'ts'}
+	{@const link = get_playground_url(code)}
+	<a href={link} target="_blank">Link to TS Playground</a>
+{/if}
