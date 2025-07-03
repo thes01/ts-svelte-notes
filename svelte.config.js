@@ -15,7 +15,7 @@ const config = {
 			fallback: undefined
 		}),
 		paths: {
-			base: process.argv.includes('dev') ? '' : process.env.BASE_PATH
+			base: process.argv.includes('dev') ? '' : '/ts-svelte-notes'
 		}
 	},
 	extensions: ['.svelte', '.svx']
